@@ -1,5 +1,5 @@
-# Use a specific Node.js version
-FROM node:lts-alpine3.20
+# ------------------------------ STAGE 1---------------------------------------
+FROM node:lts-alpine3.20 AS build1
 
 # Set the working directory
 WORKDIR /app
@@ -12,6 +12,15 @@ RUN npm install
 
 # Now copy the rest of your application files
 COPY . .
+
+# ------------------------------ STAGE 2----------------------------------------
+FROM node:lts-alpine3.20
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the above part as compressed
+Copy --from=build1 /app .
 
 # Copy environment variables if needed
 COPY .env.sample .env.local

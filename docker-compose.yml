@@ -26,5 +26,15 @@ services:
     ports:
       - "4173:4173"
 
+  redis:
+    container_name: redis
+    restart: unless-stopped
+    image: redis:8.0-M02-alpine
+    expose: 
+      - 6379
+    depends_on:
+      - mongodb
+
+
 volumes:
   data:
